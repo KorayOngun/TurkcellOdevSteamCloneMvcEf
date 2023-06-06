@@ -9,6 +9,7 @@ using SteamClone.Services.Extension;
 using System.Text.Json;
 using SteamClone.DataAccess.Repositories.IRepos;
 using SteamClone.Entities.Entities;
+using SteamClone.Dto.Request;
 
 namespace SteamClone.Services
 {
@@ -27,9 +28,15 @@ namespace SteamClone.Services
             return _repo.GetAll().ConvortToDto<GameDisplayResponse>(_mapper);
         }
 
-        public IEnumerable<GameDisplayResponse> GetByCategory(int catId)
+        public Task<IEnumerable<GameDisplayResponse>> GetAllAsync()
         {
-            return _repo.GamesByCategory(catId).ConvortToDto<GameDisplayResponse>(_mapper);
+            throw new NotImplementedException();
+        }
+
+       
+        public Task<IEnumerable<GameDisplayResponse>> GetByCategoryAsync(int catId)
+        {
+            throw new NotImplementedException();
         }
 
         public GameDetailsResponse GetGameById(int id)
@@ -39,9 +46,20 @@ namespace SteamClone.Services
             return item;    
         }
 
-        public void Update(Game game)
+        public Task<GameDetailsResponse> GetGameByIdAsync(int id)
         {
-            _repo.Update(game);  
+            throw new NotImplementedException();
+        }
+
+        public void Update(GameUpdateRequest game)
+        {
+
+            _repo.Update(game.ConvertToDb<Game>(_mapper));  
+        }
+
+        public async Task UpdateAsync(GameUpdateRequest game)
+        {
+           await _repo.UpdateAsync(game.ConvertToDb<Game>(_mapper));
         }
     }
 }

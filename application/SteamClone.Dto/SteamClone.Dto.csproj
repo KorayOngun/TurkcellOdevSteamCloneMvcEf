@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Request\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\domains\SteamClone.Entities\SteamClone.Entities.csproj" />
   </ItemGroup>
 

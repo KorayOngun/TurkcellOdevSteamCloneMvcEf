@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SteamClone.DataAccess.Repositories.EfRepo
 {
-    internal class UserRepo : EfRepository<User>, IUserRepo
+    public class UserRepo : EfRepository<User>, IUserRepo
     {
         private readonly SteamCloneContext _context;
         public UserRepo(SteamCloneContext context) : base(context) 

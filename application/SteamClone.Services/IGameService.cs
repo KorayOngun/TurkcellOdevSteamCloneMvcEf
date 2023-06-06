@@ -5,15 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SteamClone.Entities.Entities;
+using SteamClone.Dto.Request;
 
 namespace SteamClone.Services
 {
     public interface IGameService 
     {
         GameDetailsResponse GetGameById(int id);
-        void Update (Game game);
+        void Update (GameUpdateRequest game);
         IEnumerable<GameDisplayResponse> GetAll();
-        IEnumerable<GameDisplayResponse> GetByCategory(int catId);
+        
+        Task<GameDetailsResponse> GetGameByIdAsync(int id);
+        Task UpdateAsync(GameUpdateRequest game);
+        Task<IEnumerable<GameDisplayResponse>> GetAllAsync();
+        Task<IEnumerable<GameDisplayResponse>> GetByCategoryAsync(int catId);
 
     }
 }

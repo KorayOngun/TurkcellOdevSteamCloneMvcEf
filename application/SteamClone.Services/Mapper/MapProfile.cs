@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SteamClone.Dto.Request;
 using SteamClone.Dto.Response;
 using SteamClone.Entities.Entities;
 using System;
@@ -15,6 +16,7 @@ namespace SteamClone.Services.Mapper
         {
             CreateMap<Game, GameDisplayResponse>();
             CreateMap<Game,GameDetailsResponse>();
+            CreateMap<User,UserLoginResponse>();
         }
     }
 }

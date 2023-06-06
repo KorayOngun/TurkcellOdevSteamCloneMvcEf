@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SteamClone.DataAccess.Repositories.EfRepo
 {
-    public class CategoryRepo : EfRepository<Category>,ICategoryRepo
+    public class CategoryRepo : EfRepository<Category>, ICategoryRepo
     {
         private readonly SteamCloneContext _context;
         public CategoryRepo(SteamCloneContext context):base(context) 

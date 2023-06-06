@@ -9,6 +9,6 @@ namespace SteamClone.DataAccess.Repositories.IRepos
 {
     public interface IGameRepo : IRepo<Game>
     {
-        ICollection<Game> GamesByCategory(int categoryId);
+        
     }
 }

@@ -20,11 +20,7 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             _context = context;
         }
 
-        public ICollection<Game> GamesByCategory(int categoryIds)
-        {
-            return null;                
-        }
-
+     
 
 
         public override Game GetById(int id)

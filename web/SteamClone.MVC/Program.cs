@@ -6,6 +6,7 @@ using SteamClone.DataAccess.Repositories.EfRepo;
 using SteamClone.Services;
 using SteamClone.Services.Mapper;
 using SteamClone.DataAccess.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +20,15 @@ builder.Services.AddDbContext<SteamCloneContext>(optionsAction => optionsAction.
 builder.Services.AddAutoMapper(typeof(MapProfile));
 builder.Services.AddScoped<IGameRepo, GameRepo>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
+{
+    opt.LoginPath = "/Users/Login";
+    opt.AccessDeniedPath = "/Users/AccessDenied";
+});
 
 var app = builder.Build();
 
@@ -44,6 +52,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
