@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SteamClone.Services.Extension;
+using System.Text.Json;
+
 namespace SteamClone.Services
 {
     public class GameService : IGameService
@@ -30,9 +32,11 @@ namespace SteamClone.Services
             return _repo.GamesByCategory(catId).ConvortToDto<GameDisplayResponse>(_mapper);
         }
 
-        public Game GetById(int id)
+        public GameDetailsResponse GetGameById(int id)
         {
-            return _repo.GetById(id);
+            var item = _repo.GetById(id).ConvertToDto<GameDetailsResponse>(_mapper);
+            
+            return item;    
         }
 
         public void Update(Game game)

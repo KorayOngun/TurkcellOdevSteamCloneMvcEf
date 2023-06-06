@@ -14,6 +14,7 @@ namespace SteamClone.Services.Mapper
         public MapProfile()
         {
             CreateMap<Game, GameDisplayResponse>();
+            CreateMap<Game,GameDetailsResponse>();
         }
     }
 }

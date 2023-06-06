@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Request\" />
-    <Folder Include="Response\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\entity\SteamClone.Entities\SteamClone.Entities.csproj" />
   </ItemGroup>
 
 </Project>

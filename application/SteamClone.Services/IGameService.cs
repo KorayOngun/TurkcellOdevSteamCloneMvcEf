@@ -10,7 +10,7 @@ namespace SteamClone.Services
 {
     public interface IGameService 
     {
-        Game GetById(int id);
+        GameDetailsResponse GetGameById(int id);
         void Update (Game game);
         IEnumerable<GameDisplayResponse> GetAll();
         IEnumerable<GameDisplayResponse> GetByCategory(int catId);
