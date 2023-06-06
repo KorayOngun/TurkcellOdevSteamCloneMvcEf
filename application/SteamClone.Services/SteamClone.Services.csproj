@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\dataAccess\SteamClone.DataAccess\SteamClone.DataAccess.csproj" />
+    <ProjectReference Include="..\..\domains\SteamClone.Entities\SteamClone.Entities.csproj" />
+    <ProjectReference Include="..\..\infrastructure\SteamClone.DataAccess\SteamClone.DataAccess.csproj" />
     <ProjectReference Include="..\SteamClone.Dto\SteamClone.Dto.csproj" />
   </ItemGroup>
 

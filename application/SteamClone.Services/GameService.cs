@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using SteamClone.DataAccess.Repositories.IRepos;
 using SteamClone.Dto.Response;
-using SteamClone.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using SteamClone.Services.Extension;
 using System.Text.Json;
+using SteamClone.DataAccess.Repositories.IRepos;
+using SteamClone.Entities.Entities;
 
 namespace SteamClone.Services
 {

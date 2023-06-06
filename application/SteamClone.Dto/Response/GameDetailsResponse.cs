@@ -1,4 +1,5 @@
-﻿using SteamClone.Entities.Entities;
+﻿
+using SteamClone.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,4 +24,5 @@ namespace SteamClone.Dto.Response
         public ICollection<GameCategory> Categories { get; set; } = new HashSet<GameCategory>();
         public ICollection<GameReview> Review { get; set; } = new HashSet<GameReview>();
     }
+
 }

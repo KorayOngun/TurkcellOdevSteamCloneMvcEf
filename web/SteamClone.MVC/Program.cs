@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using SteamClone.DataAccess.Data;
 using Microsoft.Extensions.DependencyInjection;
 using SteamClone.DataAccess;
 using SteamClone.DataAccess.Repositories.IRepos;
 using SteamClone.DataAccess.Repositories.EfRepo;
 using SteamClone.Services;
 using SteamClone.Services.Mapper;
+using SteamClone.DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

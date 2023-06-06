@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\entity\SteamClone.Entities\SteamClone.Entities.csproj" />
+    <ProjectReference Include="..\..\domains\SteamClone.Entities\SteamClone.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
