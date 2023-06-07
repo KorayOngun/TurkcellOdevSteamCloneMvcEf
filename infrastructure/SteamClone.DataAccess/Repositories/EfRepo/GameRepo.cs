@@ -52,13 +52,19 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
         }
         public override async Task UpdateAsync(Game entity)
         {
+            var item = await ClearEntity(entity);
+            await _context.SaveChangesAsync(); 
+        }
+        private async Task<Game> ClearEntity(Game entity)
+        {
             var item = await GetByIdAsync(entity.Id);
             foreach (var cat in item.Categories)
             {
                 item.Categories.Remove(cat);
             }
-            item.Categories = entity.Categories;    
-            await _context.SaveChangesAsync(); 
+            item.Categories = entity.Categories;
+            item.Developers = entity.Developers;
+            return item;
         }
     }
 }
