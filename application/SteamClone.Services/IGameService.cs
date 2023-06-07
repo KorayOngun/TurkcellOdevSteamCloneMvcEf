@@ -12,11 +12,14 @@ namespace SteamClone.Services
     public interface IGameService 
     {
         GameDetailsResponse GetGameById(int id);
-        void Update (GameUpdateRequest game);
+        Task<GameCreateUpdateRequest> GetGameByIdForUpdateAsync(int id);
+        void Update(GameCreateUpdateRequest game);
+        
+        Task UpdateAsync(GameCreateUpdateRequest game);
         IEnumerable<GameDisplayResponse> GetAll();
         
         Task<GameDetailsResponse> GetGameByIdAsync(int id);
-        Task UpdateAsync(GameUpdateRequest game);
+       
         Task<IEnumerable<GameDisplayResponse>> GetAllAsync();
         Task<IEnumerable<GameDisplayResponse>> GetByCategoryAsync(int catId);
 

@@ -46,18 +46,22 @@ namespace SteamClone.Services
             return item;    
         }
 
-        public Task<GameDetailsResponse> GetGameByIdAsync(int id)
+        public async Task<GameDetailsResponse> GetGameByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return _repo.GetByIdAsync(id).GetAwaiter().GetResult().ConvertToDto<GameDetailsResponse>(_mapper);
         }
 
-        public void Update(GameUpdateRequest game)
+        public async Task<GameCreateUpdateRequest> GetGameByIdForUpdateAsync(int id)
         {
+            return _repo.GetByIdAsync(id).GetAwaiter().GetResult().ConvertToDto<GameCreateUpdateRequest>(_mapper);
+        }
 
+        public void Update(GameCreateUpdateRequest game)
+        {
             _repo.Update(game.ConvertToDb<Game>(_mapper));  
         }
 
-        public async Task UpdateAsync(GameUpdateRequest game)
+        public async Task UpdateAsync(GameCreateUpdateRequest game)
         {
            await _repo.UpdateAsync(game.ConvertToDb<Game>(_mapper));
         }

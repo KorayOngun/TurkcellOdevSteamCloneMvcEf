@@ -12,7 +12,6 @@ namespace SteamClone.Dto.Response
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? PublisherId { get; set; }
         public Publisher? Publisher { get; set; }
         public decimal Price { get; set; }
         public string About { get; set; }

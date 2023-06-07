@@ -17,6 +17,10 @@ namespace SteamClone.Services.Mapper
             CreateMap<Game, GameDisplayResponse>();
             CreateMap<Game,GameDetailsResponse>();
             CreateMap<User,UserLoginResponse>();
+            CreateMap<NewUserRequest,User>();
+            CreateMap<Game,GameCreateUpdateRequest>().ReverseMap();
+            CreateMap<Category,CategoryResponse>();
+            CreateMap<Publisher,PublisherResponse>();   
         }
     }
 }

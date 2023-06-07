@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using SteamClone.DataAccess.Repositories.IRepos;
 using SteamClone.Dto.Request;
 using SteamClone.Dto.Response;
+using SteamClone.Entities.Entities;
 using SteamClone.Services.Extension;
 using System;
 using System.Collections.Generic;
@@ -30,5 +32,17 @@ namespace SteamClone.Services
             }
             return null;
         }
+
+        public async Task<bool> SignUpAsync(NewUserRequest newUser)
+        {
+            var control = !_repo.GetAllWithPredicateAsync(x => x.UserName == newUser.UserName || x.UserMail == newUser.UserMail).GetAwaiter().GetResult().Any();
+            if (control)
+            {
+                await _repo.CreateAsync(newUser.ConvertToDb<User>(_mapper));
+                return true;    
+            }
+            return false;            
+        }
+        
     }
 }

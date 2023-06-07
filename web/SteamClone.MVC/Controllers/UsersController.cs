@@ -40,7 +40,7 @@ namespace SteamClone.MVC.Controllers
                     await HttpContext.SignInAsync(principal);
                     return RedirectToAction("index","home");
                 }
-                ModelState.AddModelError("Login", "Kullanıcı adı veya şifre yanlış");
+                ModelState.AddModelError("login", "Kullanıcı adı veya şifre yanlış");
             }
             return View();
         }
@@ -49,6 +49,27 @@ namespace SteamClone.MVC.Controllers
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("index", "home");
+        }
+        [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> SignUp(NewUserRequest user)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _userService.SignUpAsync(user);
+                if (result != default) 
+                {
+                    TempData["Signup"] = "üye oldunuz";
+                    return RedirectToAction("Index","Home");
+                }
+                ModelState.AddModelError("SignUp", "Kullanıcı adı veya mail kullanımda");
+            }
+            return View();
+            
         }
     }
 }

@@ -7,6 +7,7 @@ using SteamClone.Services;
 using SteamClone.Services.Mapper;
 using SteamClone.DataAccess.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using SteamClone.MVC.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +17,9 @@ builder.Services.AddControllersWithViews();
 
 
 var connectionString = builder.Configuration.GetConnectionString("SqlCon");
-builder.Services.AddDbContext<SteamCloneContext>(optionsAction => optionsAction.UseSqlServer(connectionString));
+builder.Services.AddInjections(connectionString);
 builder.Services.AddAutoMapper(typeof(MapProfile));
-builder.Services.AddScoped<IGameRepo, GameRepo>();
-builder.Services.AddScoped<IGameService, GameService>();
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IGameService, GameService>();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
 {
@@ -57,6 +54,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=game}/{action=create}/{id?}");
 
 app.Run();

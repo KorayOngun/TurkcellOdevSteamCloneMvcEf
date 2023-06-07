@@ -18,7 +18,6 @@ namespace SteamClone.MVC.Controllers
 
         public IActionResult Index()
         {
-            
             var data = _gameService.GetAll();   
             return View(data);
         }

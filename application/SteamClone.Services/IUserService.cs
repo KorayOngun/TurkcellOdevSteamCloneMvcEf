@@ -11,5 +11,6 @@ namespace SteamClone.Services
     public interface IUserService
     {
         Task<UserLoginResponse> LoginAsync(UserLoginRequest user);   
+        Task<bool> SignUpAsync(NewUserRequest newUser);
     }
 }

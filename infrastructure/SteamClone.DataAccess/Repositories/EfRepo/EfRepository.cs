@@ -20,19 +20,19 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             _context = context;
         }
 
-        public void Create(T entity)
+        public virtual void Create(T entity)
         {
                _context.Set<T>().Add(entity);
                _context.SaveChanges();
         }
 
-        public async Task CreateAsync(T entity)
+        public virtual async Task CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             var item = _context.Set<T>().Find(entity);
             if (item != null)
@@ -42,7 +42,7 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             }
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             var item = await _context.Set<T>().FindAsync(entity);
             if (item != null)
@@ -64,12 +64,12 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
 
         public virtual ICollection<T> GetAllWithPredicate(Expression<Func<T, bool>> filter)
         {
-            return _context.Set<T>().Where(filter).AsNoTracking().ToList();
+            return _context.Set<T>().AsNoTracking().Where(filter).ToList();
         }
 
         public virtual async Task<ICollection<T>> GetAllWithPredicateAsync(Expression<Func<T, bool>> filter)
         {
-            return await _context.Set<T>().Where(filter).AsNoTracking().ToListAsync();
+            return await _context.Set<T>().AsNoTracking().Where(filter).ToListAsync();
         }
 
         public virtual T GetById(int id)
@@ -82,13 +82,13 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             _context.Set<T>().Update(entity);
             _context.SaveChanges();
         }
 
-        public Task UpdateAsync(T entity)
+        public virtual Task UpdateAsync(T entity)
         {
             throw new NotImplementedException();
         }

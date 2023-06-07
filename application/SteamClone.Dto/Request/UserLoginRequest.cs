@@ -9,9 +9,9 @@ namespace SteamClone.Dto.Request
 {
     public class UserLoginRequest : IDto
     {
-        [Required]
+        [Required(ErrorMessage ="kullanıcı adı boş olamaz")]
         public string Name { get; set; }
-        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

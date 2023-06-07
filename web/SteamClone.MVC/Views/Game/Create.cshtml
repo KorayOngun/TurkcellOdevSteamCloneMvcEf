@@ -1,0 +1,83 @@
+﻿@model GameCreateUpdateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>GameCreateUpdateRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Game.Id" class="control-label" hidden></label>
+                <input asp-for="Game.Id" class="form-control" hidden />
+                <span asp-validation-for="Game.Id" hidden class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.Name" class="control-label"></label>
+                <input asp-for="Game.Name" class="form-control" />
+                <span asp-validation-for="Game.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.PublisherId" class="control-label">Publisher</label>
+                <select asp-for="Game.PublisherId">
+                    @foreach (var item in Model.Publisher)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Game.PublisherId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.Price" class="control-label"></label>
+                <input asp-for="Game.Price" class="form-control" />
+                <span asp-validation-for="Game.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.About" class="control-label"></label>
+                <input asp-for="Game.About" class="form-control" />
+                <span asp-validation-for="Game.About" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.ReleaseDate" class="control-label"></label>
+                <input asp-for="Game.ReleaseDate" class="form-control" />
+                <span asp-validation-for="Game.ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.MinimumHardware" class="control-label"></label>
+                <input asp-for="Game.MinimumHardware" class="form-control" />
+                <span asp-validation-for="Game.MinimumHardware" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.RecommendedHardware" class="control-label"></label>
+                <input asp-for="Game.RecommendedHardware" class="form-control" />
+                <span asp-validation-for="Game.RecommendedHardware" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Game.ImageUrl" class="control-label"></label>
+                <input asp-for="Game.ImageUrl" class="form-control" />
+                <span asp-validation-for="Game.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedCategories" class="control-label">Categories</label>
+                <input asp-for="SelectedCategories" type="checkbox" class="form-control" />
+                <span asp-validation-for="SelectedCategories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
