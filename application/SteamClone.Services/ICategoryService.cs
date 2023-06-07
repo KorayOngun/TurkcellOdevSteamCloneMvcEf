@@ -9,6 +9,6 @@ namespace SteamClone.Services
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryResponse>> GetCategoriesAsync();
+        Task<ICollection<CategoryResponse>> GetCategoriesAsync();
     }
 }

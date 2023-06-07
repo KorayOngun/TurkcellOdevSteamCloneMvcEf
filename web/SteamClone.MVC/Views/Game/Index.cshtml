@@ -69,6 +69,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-controller="game" asp-action="update" asp-route-id="@Model.Id">Edit</a>
     <a asp-controller="home" asp-action="Index">Back to List</a>
 </div>

@@ -24,9 +24,10 @@ namespace SteamClone.DataAccess.Data
         {
             //----Game
             modelBuilder.Entity<Game>().HasOne(g=>g.Publisher).WithMany(p=>p.Games).HasForeignKey(p=>p.PublisherId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Game>().HasMany(g => g.Developers).WithOne(gd=>gd.Game).HasForeignKey(p=>p.DeveloperId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Game>().HasMany(g => g.Developers).WithOne(gd=>gd.Game).HasForeignKey(p=>p.GameId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Game>().HasMany(g=>g.Categories).WithOne(c=>c.Game).HasForeignKey(p=>p.GameId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Game>().HasMany(g => g.Review).WithOne(gr => gr.Game).HasForeignKey(p => p.GameId).OnDelete(DeleteBehavior.Cascade);
+            
             
             //----
 
@@ -37,9 +38,9 @@ namespace SteamClone.DataAccess.Data
             modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue("Member");
             //----
 
-            modelBuilder.Entity<Developer>().HasMany(d=>d.Games).WithOne(g=>g.Developer).HasForeignKey(p=>p.DeveloperId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Developer>().HasMany(d=>d.Games).WithOne(g=>g.Developer).HasForeignKey(p=>p.DeveloperId).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Category>().HasMany(d=>d.Games).WithOne(g=>g.Category).HasForeignKey(p=>p.CategoryId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Category>().HasMany(d=>d.Games).WithOne(g=>g.Category).HasForeignKey(p=>p.CategoryId).OnDelete(DeleteBehavior.Cascade);
            
             modelBuilder.Entity<GameDeveloper>().HasKey("DeveloperId", "GameId");
 

@@ -8,9 +8,9 @@ namespace SteamClone.Entities.Entities
 {
     public class GameCategory : IEntity
     {
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
         public int GameId { get; set; }
-        public Game Game { get; set; }
+        public Game? Game { get; set; }
     }
 }

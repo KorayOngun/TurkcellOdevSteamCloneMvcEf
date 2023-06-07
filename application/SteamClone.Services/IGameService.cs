@@ -14,7 +14,7 @@ namespace SteamClone.Services
         GameDetailsResponse GetGameById(int id);
         Task<GameCreateUpdateRequest> GetGameByIdForUpdateAsync(int id);
         void Update(GameCreateUpdateRequest game);
-        
+        Task<bool> CreateGameAsync(GameCreateUpdateRequest game);
         Task UpdateAsync(GameCreateUpdateRequest game);
         IEnumerable<GameDisplayResponse> GetAll();
         

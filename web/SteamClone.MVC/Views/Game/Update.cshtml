@@ -1,17 +1,15 @@
 ﻿@model GameCreateUpdateViewModel
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update";
 }
 
-<h1>Create</h1>
-<h1>@TempData["gameAdd"]</h1>
+<h1>Update</h1>
 <h4>GameCreateUpdateRequest</h4>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" method="post">
+        <form asp-action="Update" method="post" asp-route-id="@Model.Game.Id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Game.Id" class="control-label" hidden></label>
@@ -66,12 +64,21 @@
             <div class="form-group">
                 @foreach (var item in Model.Categories)
                 {
-                    <input name="categories" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
-                    <label>@item.Name</label>
+                    if (Model.Game.Categories.Any(c => c.CategoryId == item.Id))
+                    {
+                        <input name="categories" checked="true" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                        <label>@item.Name</label>
+                    }
+                    else
+                    {
+                        <input name="categories"  style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                        <label>@item.Name</label>
+                    }
+
                 }
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -86,5 +93,8 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+

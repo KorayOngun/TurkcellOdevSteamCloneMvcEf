@@ -23,6 +23,17 @@ namespace SteamClone.Services
             _mapper = mapper;
         }
 
+        public async Task<bool> CreateGameAsync(GameCreateUpdateRequest game)
+        {
+            var item = game.ConvertToDb<Game>(_mapper);
+            await _repo.CreateAsync(item);
+            if (item.Id!=null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public IEnumerable<GameDisplayResponse> GetAll()
         {
             return _repo.GetAll().ConvortToDto<GameDisplayResponse>(_mapper);

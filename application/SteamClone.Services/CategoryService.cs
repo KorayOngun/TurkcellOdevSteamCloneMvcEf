@@ -20,9 +20,9 @@ namespace SteamClone.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategoryResponse>> GetCategoriesAsync()
+        public async Task<ICollection<CategoryResponse>> GetCategoriesAsync()
         {
-            return _repo.GetAllAsync().GetAwaiter().GetResult().ConvortToDto<CategoryResponse>(_mapper);
+            return _repo.GetAllAsync().GetAwaiter().GetResult().ConvortToDto<CategoryResponse>(_mapper).ToList();
         }
     }
 }

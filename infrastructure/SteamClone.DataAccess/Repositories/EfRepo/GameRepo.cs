@@ -32,5 +32,33 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
                                                             .FirstOrDefault();
             return item;
         }
+        public async override Task<Game> GetByIdAsync(int id)
+        {
+            var item = await _context.Games.Where(x => x.Id == id).Include(g => g.Publisher)
+                                                                  .Include(g => g.Review)
+                                                                  .Include(g => g.Categories)
+                                                                  .ThenInclude(c => c.Category)
+                                                                  .FirstOrDefaultAsync();
+            return item;
+        }
+        public override async Task CreateAsync(Game entity)
+        {
+            await _context.AddAsync(entity);
+            foreach (var item in entity.Categories)
+            {
+                item.GameId = item.GameId;
+            }
+            await _context.SaveChangesAsync();  
+        }
+        public override async Task UpdateAsync(Game entity)
+        {
+            var item = await GetByIdAsync(entity.Id);
+            foreach (var cat in item.Categories)
+            {
+                item.Categories.Remove(cat);
+            }
+            item.Categories = entity.Categories;    
+            await _context.SaveChangesAsync(); 
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace SteamClone.Entities.Entities
     {
         public int DeveloperId { get; set; }
         public Developer? Developer { get; set; }
-        public int GameId { get; set; }
+        public int? GameId { get; set; }
         public Game? Game { get; set; }
 
     }

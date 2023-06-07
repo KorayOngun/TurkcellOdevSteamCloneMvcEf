@@ -22,6 +22,11 @@ namespace SteamClone.Services.Extension
             return mapper.Map<IEnumerable<T>>(entity);
      
         }
+        public static ICollection<T> ConvortToDto<T>(this ICollection<IEntity> entity, IMapper mapper) where T : class, IDto
+        {
+            return mapper.Map<ICollection<T>>(entity);
+
+        }
         public static T ConvertToDb<T>(this IDto dto, IMapper mapper)
         {
             return mapper.Map<T>(dto);  

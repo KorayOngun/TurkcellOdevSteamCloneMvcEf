@@ -88,9 +88,11 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             _context.SaveChanges();
         }
 
-        public virtual Task UpdateAsync(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

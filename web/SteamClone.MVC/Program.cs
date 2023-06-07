@@ -54,6 +54,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=game}/{action=create}/{id?}");
+    pattern: "{controller=home}/{action=index}/{id?}");
 
 app.Run();

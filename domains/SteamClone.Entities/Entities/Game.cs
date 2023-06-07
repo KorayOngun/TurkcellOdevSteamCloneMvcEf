@@ -17,7 +17,7 @@ namespace SteamClone.Entities.Entities
         public DateTime ReleaseDate { get; set; }
         public string? MinimumHardware { get; set; }
         public string? RecommendedHardware { get; set; }
-        public string ImageUrl { get; set; } = "https://loremflickr.com/320/240";
+        public string ImageUrl { get; set; } 
         public ICollection<GameDeveloper> Developers { get; set; } = new HashSet<GameDeveloper>();
         public ICollection<GameCategory> Categories { get; set; } = new HashSet<GameCategory>();
         public ICollection<GameReview> Review { get; set; } = new HashSet<GameReview>();
