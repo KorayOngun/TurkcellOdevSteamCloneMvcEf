@@ -34,6 +34,15 @@ namespace SteamClone.Services
             return false;
         }
 
+        public async Task DeleteGameAsync(int id)
+        {
+            var item = await _repo.GetByIdAsync(id);
+            if (item != default)
+            {
+                await _repo.DeleteAsync(item);
+            }
+        }
+
         public IEnumerable<GameDisplayResponse> GetAll()
         {
             return _repo.GetAll().ConvortToDto<GameDisplayResponse>(_mapper);

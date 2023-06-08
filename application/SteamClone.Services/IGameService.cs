@@ -22,6 +22,7 @@ namespace SteamClone.Services
        
         Task<IEnumerable<GameDisplayResponse>> GetAllAsync();
         Task<IEnumerable<GameDisplayResponse>> GetByCategoryAsync(int catId);
+        Task DeleteGameAsync(int id);
 
     }
 }

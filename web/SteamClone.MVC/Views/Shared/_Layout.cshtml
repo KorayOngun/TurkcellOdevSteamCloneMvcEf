@@ -25,6 +25,12 @@
                         @{
                             if (User.Identity.IsAuthenticated)
                             {
+                                if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="game" asp-action="create">Game Create</a>
+                                    </li>
+                                }
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Users" asp-action="Logout"> @User.Identity.Name (Çıkış Yap)</a>
                                 </li>

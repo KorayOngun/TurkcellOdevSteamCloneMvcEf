@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "AccessDenied";
+}
+
+
+<h2>
+    you are not authorized
+</h2>
+<h3>
+    You will be redirected to the home page in 7 seconds
+</h3>
+
+
+@section Scripts {
+    <script>
+        setTimeout(()=>{
+            window.location.href = "/home"
+        },7000)
+    </script>
+}
+

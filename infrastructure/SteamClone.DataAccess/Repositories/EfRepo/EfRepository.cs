@@ -34,22 +34,14 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
 
         public virtual void Delete(T entity)
         {
-            var item = _context.Set<T>().Find(entity);
-            if (item != null)
-            {
-                _context.Set<T>().Remove(item);
-                _context.SaveChanges();
-            }
+            _context.Set<T>().Remove(entity);
+            _context.SaveChanges();
         }
 
         public virtual async Task DeleteAsync(T entity)
         {
-            var item = await _context.Set<T>().FindAsync(entity);
-            if (item != null)
-            {
-                _context.Set<T>().Remove(item);
-                await _context.SaveChangesAsync();
-            }
+            _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
         public virtual  ICollection<T> GetAll()

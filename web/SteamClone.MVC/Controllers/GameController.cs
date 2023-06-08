@@ -28,14 +28,17 @@ namespace SteamClone.MVC.Controllers
             return View(data);
         }
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Create()
         {
             GameCreateUpdateViewModel model = new GameCreateUpdateViewModel();
             model.Categories = await _categoryService.GetCategoriesAsync();
             model.Publisher = await _publisherService.GetAllPublisherAsync();
+            model.Developers = await _developerService.GetAllDevelopersAsync();
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(IFormCollection formValue, GameCreateUpdateViewModel model)
         {
             
@@ -52,32 +55,29 @@ namespace SteamClone.MVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id)
         {
-
-            var game = await _gameService.GetGameByIdForUpdateAsync(id);
-            var categories = await _categoryService.GetCategoriesAsync();
-            var publishers = await _publisherService.GetAllPublisherAsync();
-            var developers = await _developerService.GetAllDevelopersAsync();
-            GameCreateUpdateViewModel model = new()
-            {
-                Game = game,
-                Categories = categories,
-                Publisher = publishers,
-                Developers = developers
-            };
-
+            GameCreateUpdateViewModel model = new();
+            model.Game = await _gameService.GetGameByIdForUpdateAsync(id);
+            model.Categories = await _categoryService.GetCategoriesAsync();
+            model.Publisher = await _publisherService.GetAllPublisherAsync();
+            model.Developers = await _developerService.GetAllDevelopersAsync();
             return View(model);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(IFormCollection form, GameCreateUpdateViewModel model)
         {
-
             GameCreateUpdateRequest data = Control(form, model);
             await _gameService.UpdateAsync(data);
-
-
             return RedirectToAction(nameof(Index), routeValues: new { id = model.Game.Id });
+        }
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _gameService.DeleteGameAsync(id);
+            return RedirectToAction("index", "home");
         }
         private GameCreateUpdateRequest Control(IFormCollection form, GameCreateUpdateViewModel model)
         {

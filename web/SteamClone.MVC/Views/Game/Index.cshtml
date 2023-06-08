@@ -79,6 +79,10 @@
     </dl>
 </div>
 <div>
-    <a asp-controller="game" asp-action="update" asp-route-id="@Model.Id">Edit</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-controller="game" asp-action="update" asp-route-id="@Model.Id">Edit</a>
+        <a asp-controller="game" asp-action="delete" asp-route-id="@Model.Id">Delete</a>
+    }
     <a asp-controller="home" asp-action="Index">Back to List</a>
 </div>
