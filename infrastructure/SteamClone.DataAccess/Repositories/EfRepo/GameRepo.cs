@@ -20,7 +20,7 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             _context = context;
         }
 
-     
+
 
 
         public override Game GetById(int id)
@@ -29,6 +29,8 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
                                                             .Include(g => g.Review)
                                                             .Include(g => g.Categories)
                                                             .ThenInclude(c => c.Category)
+                                                            .Include(g => g.Developers)
+                                                            .ThenInclude(d => d.Developer)
                                                             .FirstOrDefault();
             return item;
         }
@@ -38,6 +40,8 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
                                                                   .Include(g => g.Review)
                                                                   .Include(g => g.Categories)
                                                                   .ThenInclude(c => c.Category)
+                                                                  .Include(g => g.Developers)
+                                                                  .ThenInclude(d => d.Developer)
                                                                   .FirstOrDefaultAsync();
             return item;
         }
@@ -46,21 +50,29 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             await _context.AddAsync(entity);
             foreach (var item in entity.Categories)
             {
-                item.GameId = item.GameId;
+                item.GameId = entity.Id;
             }
-            await _context.SaveChangesAsync();  
+            foreach (var item in entity.Developers)
+            {
+                item.GameId = entity.Id;
+            }
+            await _context.SaveChangesAsync();
         }
         public override async Task UpdateAsync(Game entity)
         {
-            var item = await ClearEntity(entity);
-            await _context.SaveChangesAsync(); 
+            var item = await ClearEntityAsync(entity);
+            await _context.SaveChangesAsync();
         }
-        private async Task<Game> ClearEntity(Game entity)
+        private async Task<Game> ClearEntityAsync(Game entity)
         {
             var item = await GetByIdAsync(entity.Id);
             foreach (var cat in item.Categories)
             {
                 item.Categories.Remove(cat);
+            }
+            foreach (var dev in item.Developers)
+            {
+                item.Developers.Remove(dev);
             }
             item.Categories = entity.Categories;
             item.Developers = entity.Developers;

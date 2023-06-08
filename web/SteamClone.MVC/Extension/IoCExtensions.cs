@@ -16,11 +16,13 @@ namespace SteamClone.MVC.Extension
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IPublisherRepo, PublisherRepo>();
             services.AddScoped<ICategoryRepo, CategoryRepo>();
+            services.AddScoped<IDeveloperRepo, DeveloperRepo>();
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IPublisherService, PublisherService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDeveloperService, DeveloperService>();
             //IoC
             services.AddDbContext<SteamCloneContext>(opt => opt.UseSqlServer(connectionString));
 

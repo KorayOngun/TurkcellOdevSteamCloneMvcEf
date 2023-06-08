@@ -63,12 +63,27 @@
                 <input asp-for="Game.ImageUrl" class="form-control" />
                 <span asp-validation-for="Game.ImageUrl" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                @foreach (var item in Model.Categories)
-                {
-                    <input name="categories" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
-                    <label>@item.Name</label>
-                }
+                <div style="margin:50px">
+                    <div>categories</div>
+                    @foreach (var item in Model.Categories)
+                    {
+                        <input name="categories" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                        <label>@item.Name</label>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="margin:50px"> 
+                    <div>developers</div>
+                    @foreach (var item in Model.Developers)
+                    {
+                        <input name="developers" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                        <label>@item.Name</label>
+                    }
+                </div>
+              
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

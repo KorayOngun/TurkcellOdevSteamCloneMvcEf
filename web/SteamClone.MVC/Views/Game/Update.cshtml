@@ -62,20 +62,44 @@
                 <span asp-validation-for="Game.ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @foreach (var item in Model.Categories)
-                {
-                    if (Model.Game.Categories.Any(c => c.CategoryId == item.Id))
+                <div style="margin:50px">
+                    <div>Categories</div>
+                    @foreach (var item in Model.Categories)
                     {
-                        <input name="categories" checked="true" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
-                        <label>@item.Name</label>
-                    }
-                    else
-                    {
-                        <input name="categories"  style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
-                        <label>@item.Name</label>
-                    }
+                        if (Model.Game.Categories.Any(c => c.CategoryId == item.Id))
+                        {
+                            <input name="categories" checked="true" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                            <label>@item.Name</label>
+                        }
+                        else
+                        {
+                            <input name="categories" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                            <label>@item.Name</label>
+                        }
 
-                }
+                    }
+                </div>
+            
+            </div>
+            
+            <div class="form-group">
+                <div style="margin:50px">
+                    <div>developers</div>
+                    @foreach (var item in Model.Developers)
+                    {
+                        if (Model.Game.Developers.Any(d => d.DeveloperId == item.Id))
+                        {
+                            <input name="developers" checked="true" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                            <label>@item.Name</label>
+                        }
+                        else
+                        {
+                            <input name="developers" style="margin-left:15px" itemid="@item.Id" type="checkbox" value="@item.Id" />
+                            <label>@item.Name</label>
+                        }
+
+                    }
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Update" class="btn btn-primary" />

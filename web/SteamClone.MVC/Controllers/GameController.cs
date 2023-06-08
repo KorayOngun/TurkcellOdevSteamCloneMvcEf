@@ -14,11 +14,13 @@ namespace SteamClone.MVC.Controllers
         private readonly IGameService _gameService;
         private readonly ICategoryService _categoryService;
         private readonly IPublisherService _publisherService;
-        public GameController(IGameService gameService, ICategoryService categoryService, IPublisherService publisherService)
+        private readonly IDeveloperService _developerService;
+        public GameController(IGameService gameService, ICategoryService categoryService, IPublisherService publisherService, IDeveloperService developerService)
         {
             _gameService = gameService;
             _categoryService = categoryService;
             _publisherService = publisherService;
+            _developerService = developerService;
         }
         public IActionResult Index(int id)
         {
@@ -56,11 +58,13 @@ namespace SteamClone.MVC.Controllers
             var game = await _gameService.GetGameByIdForUpdateAsync(id);
             var categories = await _categoryService.GetCategoriesAsync();
             var publishers = await _publisherService.GetAllPublisherAsync();
+            var developers = await _developerService.GetAllDevelopersAsync();
             GameCreateUpdateViewModel model = new()
             {
                 Game = game,
                 Categories = categories,
-                Publisher = publishers
+                Publisher = publishers,
+                Developers = developers
             };
 
             return View(model);
@@ -78,18 +82,23 @@ namespace SteamClone.MVC.Controllers
         private GameCreateUpdateRequest Control(IFormCollection form, GameCreateUpdateViewModel model)
         {
             List<string> formCategories = form["categories"].ToList();
+            List<string> formDevelopers = form["developers"].ToList();
             if (!form["categories"].IsNullOrEmpty())
             {
-                foreach (var item in model.Game.Categories)
-                {
-                    model.Game.Categories.Remove(item);
-                }
+               model.Game.Categories = new List<GameCategory>();
+            }
+            if (!form["developers"].IsNullOrEmpty())
+            {
+                model.Game.Developers = new List<GameDeveloper>();
             }
             foreach (var item in formCategories)
             {
                 model.Game.Categories.Add(new GameCategory { CategoryId = Convert.ToInt16(item) , GameId = model.Game.Id });
             }
-
+            foreach (var item in formDevelopers)
+            {
+                model.Game.Developers.Add(new GameDeveloper { DeveloperId = Convert.ToInt16(item), GameId = model.Game.Id });
+            }
             return model.Game;
         }
 

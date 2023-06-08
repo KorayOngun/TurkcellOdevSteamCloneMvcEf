@@ -26,5 +26,7 @@ namespace SteamClone.Dto.Request
         [Required]
         public string ImageUrl { get; set; } = "https://loremflickr.com/320/240";
         public ICollection<GameCategory> Categories { get; set; } = new HashSet<GameCategory>();
+        public ICollection<GameDeveloper> Developers { get; set; } = new HashSet<GameDeveloper>();
+
     }
 }
