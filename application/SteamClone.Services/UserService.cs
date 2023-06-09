@@ -23,6 +23,11 @@ namespace SteamClone.Services
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<UserDisplayForAdmin>> GetAllUserForAdmin()
+        {
+           return  _repo.GetAllWithPredicateAsync(x=>x.Role == "Member").GetAwaiter().GetResult().ConvortToDto<UserDisplayForAdmin>(_mapper).ToList();
+        }
+
         public async Task<UserLoginResponse> LoginAsync(UserLoginRequest user)
         {
             var result =  _repo.GetAllWithPredicateAsync(u => u.UserName == user.Name && user.Password == user.Password).GetAwaiter().GetResult().FirstOrDefault();

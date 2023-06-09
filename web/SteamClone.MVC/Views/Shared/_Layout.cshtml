@@ -30,6 +30,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-controller="game" asp-action="create">Game Create</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="admin" asp-action="index">Admin page</a>
+                                    </li>
                                 }
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Users" asp-action="Logout"> @User.Identity.Name (Çıkış Yap)</a>
@@ -44,6 +47,9 @@
                                     <a class="nav-link text-dark" asp-controller="Users" asp-action="SignUp"> Üye ol</a>
                                 </li>
                             }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="wishlist" asp-action="index"> Wish List</a>
+                            </li>
                         }
                     </ul>
                 </div>

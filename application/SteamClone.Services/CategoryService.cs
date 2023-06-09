@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using SteamClone.DataAccess.Repositories.IRepos;
+using SteamClone.Dto.Request;
 using SteamClone.Dto.Response;
+using SteamClone.Entities.Entities;
 using SteamClone.Services.Extension;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,20 @@ namespace SteamClone.Services
         {
             _repo = repo;
             _mapper = mapper;
+        }
+
+        public async Task<bool> CategoryControlAsync(IEnumerable<CategoryRequest> categories)
+        {
+            var data = categories.ConvortToDb<Category>(_mapper);
+            foreach (var category in data) 
+            {
+                if (!await _repo.IsExistAsync(category.Id))
+                {
+                    return false;
+                }
+                continue;
+            }
+            return true;
         }
 
         public async Task<ICollection<CategoryResponse>> GetCategoriesAsync()

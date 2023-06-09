@@ -1,11 +1,9 @@
-﻿@model GameCreateUpdateViewModel
+﻿@model GameUpdateViewModel
 @{
     ViewData["Title"] = "Update";
 }
 
 <h1>Update</h1>
-<h4>GameCreateUpdateRequest</h4>
-
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -113,7 +111,7 @@
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="home" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

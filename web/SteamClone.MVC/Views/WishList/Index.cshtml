@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SteamClone.MVC.Models.WishListItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<a asp-controller="wishlist" asp-action="Clear">delete all</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                id
+            </th>
+            <th>
+                name
+            </th>
+            <th>
+               price
+            </th>
+            <th>
+               image
+            </th>
+            <th>
+                quantity
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Price
+            </td>
+            <td>
+                    <img style="width:150px;height:150px" src="@item.ImageUrl">
+            </td>
+            <td>
+                @item.Quantity
+            </td>
+            <td>
+                <a asp-controller="game" asp-action="index" asp-route-id ="@item.Id">Detail</a>  
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

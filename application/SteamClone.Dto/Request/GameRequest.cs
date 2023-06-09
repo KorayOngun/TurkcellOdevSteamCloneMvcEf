@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SteamClone.Dto.Request
 {
-    public class GameCreateUpdateRequest : IDto
+    public class GameRequest : IDto
     {
         public int Id { get; set; }
         [Required]
@@ -27,6 +27,5 @@ namespace SteamClone.Dto.Request
         public string ImageUrl { get; set; } = "https://loremflickr.com/320/240";
         public ICollection<GameCategory> Categories { get; set; } = new HashSet<GameCategory>();
         public ICollection<GameDeveloper> Developers { get; set; } = new HashSet<GameDeveloper>();
-
     }
 }

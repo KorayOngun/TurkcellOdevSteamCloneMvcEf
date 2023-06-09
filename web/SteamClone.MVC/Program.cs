@@ -8,6 +8,7 @@ using SteamClone.Services.Mapper;
 using SteamClone.DataAccess.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SteamClone.MVC.Extension;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +19,12 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("SqlCon");
 builder.Services.AddInjections(connectionString);
-builder.Services.AddAutoMapper(typeof(MapProfile));
+builder.Services.InitConfig();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
-{
-    opt.LoginPath = "/Users/Login";
-    opt.AccessDeniedPath = "/Users/AccessDenied";
-});
+
+
+
 
 var app = builder.Build();
 
@@ -48,7 +47,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

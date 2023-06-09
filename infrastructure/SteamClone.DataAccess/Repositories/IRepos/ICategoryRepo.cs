@@ -9,5 +9,6 @@ namespace SteamClone.DataAccess.Repositories.IRepos
 {
     public interface ICategoryRepo : IRepo<Category>
     {
+        Task<bool> IsExistAsync(int id);
     }
 }

@@ -23,7 +23,7 @@ namespace SteamClone.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateGameAsync(GameCreateUpdateRequest game)
+        public async Task<bool> CreateGameAsync(GameRequest game)
         {
             var item = game.ConvertToDb<Game>(_mapper);
             await _repo.CreateAsync(item);
@@ -48,9 +48,9 @@ namespace SteamClone.Services
             return _repo.GetAll().ConvortToDto<GameDisplayResponse>(_mapper);
         }
 
-        public Task<IEnumerable<GameDisplayResponse>> GetAllAsync()
+        public async Task<IEnumerable<GameDisplayResponse>> GetAllAsync()
         {
-            throw new NotImplementedException();
+           return _repo.GetAllAsync().GetAwaiter().GetResult().ConvortToDto<GameDisplayResponse>(_mapper);
         }
 
        
@@ -59,6 +59,7 @@ namespace SteamClone.Services
             throw new NotImplementedException();
         }
 
+        
         public GameDetailsResponse GetGameById(int id)
         {
             var item = _repo.GetById(id).ConvertToDto<GameDetailsResponse>(_mapper);
@@ -71,19 +72,27 @@ namespace SteamClone.Services
             return _repo.GetByIdAsync(id).GetAwaiter().GetResult().ConvertToDto<GameDetailsResponse>(_mapper);
         }
 
-        public async Task<GameCreateUpdateRequest> GetGameByIdForUpdateAsync(int id)
+        public async Task<GameRequest> GetGameByIdForUpdateAsync(int id)
         {
-            return _repo.GetByIdAsync(id).GetAwaiter().GetResult().ConvertToDto<GameCreateUpdateRequest>(_mapper);
+            return _repo.GetByIdAsync(id).GetAwaiter().GetResult().ConvertToDto<GameRequest>(_mapper);
         }
 
-        public void Update(GameCreateUpdateRequest game)
+        public void Update(GameRequest game)
         {
+            var item = game.ConvertToDb<Game>(_mapper);
+            if (true)
+            {
+                
+            }
             _repo.Update(game.ConvertToDb<Game>(_mapper));  
         }
 
-        public async Task UpdateAsync(GameCreateUpdateRequest game)
+        public async Task UpdateAsync(GameRequest game)
         {
-           await _repo.UpdateAsync(game.ConvertToDb<Game>(_mapper));
+            var item = game.ConvertToDb<Game>(_mapper);
+            
+            await _repo.UpdateAsync(item);
         }
+
     }
 }

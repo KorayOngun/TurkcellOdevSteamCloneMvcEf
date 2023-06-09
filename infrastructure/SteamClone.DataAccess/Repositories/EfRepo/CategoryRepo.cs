@@ -16,6 +16,14 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
         {
             _context = context;
         }
-       
+
+        public async Task<bool> IsExistAsync(int id)
+        {
+            if (await _context.Categories.FindAsync(id) != default)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

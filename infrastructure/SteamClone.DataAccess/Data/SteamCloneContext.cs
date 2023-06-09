@@ -29,7 +29,7 @@ namespace SteamClone.DataAccess.Data
             modelBuilder.Entity<Game>().HasMany(g => g.Review).WithOne(gr => gr.Game).HasForeignKey(p => p.GameId).OnDelete(DeleteBehavior.Cascade);
             
             
-            //----
+            
 
             //----User
             modelBuilder.Entity<User>().HasKey("Id");

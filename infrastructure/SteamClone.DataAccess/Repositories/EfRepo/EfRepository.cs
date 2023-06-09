@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SteamClone.DataAccess.Data;
 using SteamClone.DataAccess.Repositories.IRepos;
 using SteamClone.Entities;
@@ -14,22 +15,40 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
     public abstract class EfRepository<T> : IRepo<T> where T : class,IEntity,new()
     {
         private readonly SteamCloneContext _context;
+        
+
 
         public EfRepository(SteamCloneContext context)
         {
             _context = context;
+             
         }
-
+        protected void SaveChangesWithExceptionHandler()
+        {
+            try
+            {
+                _context.SaveChanges();
+            }
+            finally{}
+        }
+        protected async Task SaveChangesWithExceptionHandlerAsync()
+        {
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            finally{}
+        }
         public virtual void Create(T entity)
         {
                _context.Set<T>().Add(entity);
-               _context.SaveChanges();
+            SaveChangesWithExceptionHandler();
         }
 
         public virtual async Task CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await SaveChangesWithExceptionHandlerAsync();
         }
 
         public virtual void Delete(T entity)

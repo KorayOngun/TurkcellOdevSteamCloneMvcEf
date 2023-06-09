@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SteamClone.DataAccess.Data;
 using SteamClone.DataAccess.Repositories;
 using SteamClone.DataAccess.Repositories.EfRepo;
 using SteamClone.DataAccess.Repositories.IRepos;
 using SteamClone.Services;
+using SteamClone.Services.Mapper;
 
 namespace SteamClone.MVC.Extension
 {
@@ -26,6 +28,21 @@ namespace SteamClone.MVC.Extension
             //IoC
             services.AddDbContext<SteamCloneContext>(opt => opt.UseSqlServer(connectionString));
 
+            return services;
+        }
+        public static IServiceCollection InitConfig(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MapProfile));
+            services.AddSession(opt =>
+            {
+                opt.IdleTimeout = TimeSpan.FromMinutes(12);
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
+            {
+                opt.LoginPath = "/Users/Login";
+                opt.AccessDeniedPath = "/Users/AccessDenied";
+            });
+            services.AddMemoryCache();
             return services;
         }
     }
