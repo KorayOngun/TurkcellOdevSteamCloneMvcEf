@@ -53,7 +53,7 @@ namespace SteamClone.DataAccess
             {
                 List<User> users = new List<User>
                 {
-                  new(){UserMail="koray@mail",UserName="koray",UserPassword="1234"},
+                  new(){UserMail="koray@mail",UserName="koray",UserPassword="1234",Role="Admin"},
                   new(){UserMail="ahmet@mail",UserName="ahmet",UserPassword="1234"},
                 };
                 context.User.AddRange(users);

@@ -4,12 +4,20 @@
      
 }
 @model IEnumerable<GameDisplayResponse>
+
+<div class="row">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="nameBox" placeholder="comment"  aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <a id="send"><button class="btn btn-outline-secondary" type="button">Send</button></a>
+        </div>
+    </div>
+</div>
 <span>@TempData["Signup"]</span>
 <Div class="container">
     <div class="row">
         @foreach (var item in Model)
         {
-
             <div class="card m-1" style="width: 18rem;">
                 <img class="card-img-top" style="height:50%" src="@item.ImageUrl" alt="Card image cap">
                 <div class="card-body">
@@ -45,5 +53,14 @@
             });
         })
     </script>
+    <script>
+        document.getElementById("nameBox").addEventListener("keyup", () => {
+            var text = document.getElementById("nameBox").value;
+            document.getElementById("send").href = "/home/index?name="+text
+            console.log(text);
+        })
+    </script>
 }
 
+
+    

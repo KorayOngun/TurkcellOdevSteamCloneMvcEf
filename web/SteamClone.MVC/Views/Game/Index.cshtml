@@ -110,7 +110,7 @@
 </div>
 @section Scripts{
     <script>
-        document.getElementById("send").addEventListener("mouseenter",()=>{
+        document.getElementById("comment").addEventListener("keyup",()=>{
             var text = document.getElementById("comment").value;
             var id = document.getElementById("comment").getAttribute("data-gameId")
             document.getElementById("send").href = "/game/addcomment?gameId="+id+"&comment="+text;

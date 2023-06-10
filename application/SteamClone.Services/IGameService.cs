@@ -13,7 +13,6 @@ namespace SteamClone.Services
     {
        
         Task<GameRequest> GetGameByIdForUpdateAsync(int id);
-        void Update(GameRequest game);
         Task<int> CreateGameAsync(GameRequest game);
         Task UpdateAsync(GameRequest game);
         IEnumerable<GameDisplayResponse> GetAll();
@@ -24,6 +23,7 @@ namespace SteamClone.Services
         
         Task DeleteGameAsync(int id);
         Task AddCommentAsync(GameCommentRequest comment);
+        Task<ICollection<GameDisplayResponse>> GetGameByName(string name);
 
     }
 }

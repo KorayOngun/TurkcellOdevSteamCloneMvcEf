@@ -23,32 +23,36 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
         }
         public override Game GetById(int id)
         {
-            var item = _context.Games.AsNoTracking().Where(x => x.Id == id).Include(g => g.Publisher)
-                                                            .Include(g => g.Review)
-                                                            .ThenInclude(r => r.User)
-                                                            .Include(g => g.Categories)
-                                                            .ThenInclude(c => c.Category)
-                                                            .Include(g => g.Developers)
-                                                            .ThenInclude(d => d.Developer)
-                                                            .FirstOrDefault();
+            var item = _context.Games.AsNoTracking()
+                                     .Where(x => x.Id == id)
+                                     .Include(g => g.Publisher)
+                                     .Include(g => g.Review)
+                                     .ThenInclude(r => r.User)
+                                     .Include(g => g.Categories)
+                                     .ThenInclude(c => c.Category)
+                                     .Include(g => g.Developers)
+                                     .ThenInclude(d => d.Developer)
+                                     .FirstOrDefault();
             foreach (var user in item.Review)
             {
                 user.User.UserPassword = null;
             }
             return item;
         }
-
-
+       
         public async override Task<Game> GetByIdAsync(int id)
         {
-            var item = await _context.Games.AsNoTracking().Where(x => x.Id == id).Include(g => g.Publisher)
-                                                                  .Include(g => g.Review)
-                                                                  .ThenInclude(r => r.User)
-                                                                  .Include(g => g.Categories)
-                                                                  .ThenInclude(c => c.Category)
-                                                                  .Include(g => g.Developers)
-                                                                  .ThenInclude(d => d.Developer)
-                                                                  .FirstOrDefaultAsync();
+            var item = await _context.Games.AsNoTracking()
+                                           .Where(x => x.Id == id)
+                                           .Include(g => g.Publisher)
+                                           .Include(g => g.Review)
+                                           .ThenInclude(r => r.User)
+                                           .Include(g => g.Categories)
+                                           .ThenInclude(c => c.Category)
+                                           .Include(g => g.Developers)
+                                           .ThenInclude(d => d.Developer)
+                                           .FirstOrDefaultAsync();
+
             foreach (var user in item.Review)
             {
                 user.User.UserPassword = null;
@@ -58,13 +62,15 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
 
         public async Task<Game?> GetItemForUpdateAsync(int id)
         {
-            return await _context.Games.Where(x => x.Id == id)
-                                       .Include(g => g.Publisher)
-                                       .Include(g => g.Categories)
-                                       .ThenInclude(c => c.Category)
-                                       .Include(g => g.Developers)
-                                       .ThenInclude(d => d.Developer)
-                                       .FirstOrDefaultAsync();
+            var data = await _context.Games.Where(x => x.Id == id)
+                                           .Include(g => g.Publisher)
+                                           .Include(g => g.Categories)
+                                           .ThenInclude(c => c.Category)
+                                           .Include(g => g.Developers)
+                                           .ThenInclude(d => d.Developer)
+                                           .FirstOrDefaultAsync();
+
+            return data;
         }
         public Game? GetItemForUpdate(int id)
         {
@@ -79,13 +85,7 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
 
         public async Task AddCommentAsync(GameReview comment)
         {
-            GameReview gameReview = new GameReview
-            {
-                GameId = comment.GameId,
-                UserId = comment.UserId,
-                Review = comment.Review,
-            };
-            await _context.GameReview.AddAsync(gameReview);
+            await _context.GameReview.AddAsync(comment);
             await _context.SaveChangesAsync();
         }
 

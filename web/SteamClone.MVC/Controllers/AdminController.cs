@@ -19,6 +19,11 @@ namespace SteamClone.MVC.Controllers
             var data =  await _userService.GetAllUserForAdminAsync();
             return View(data);
         }
+        public async Task<IActionResult> Details(int id = 0)
+        {
+            var data = await _userService.GetUserDetailsForAdminAsync(id);
+            return View(data);
+        }
         
     }
 }

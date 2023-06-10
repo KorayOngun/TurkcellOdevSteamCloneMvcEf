@@ -5,6 +5,7 @@ using SteamClone.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,35 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             _context = context;
         }
 
+        public async Task<IEnumerable<User>> GetUserForAdmin()
+        { 
+            
+            var data = await _context.User.AsNoTracking().Where(x=>x.Role == "Member").Include(x=>x.Reviews)
+                .Select(u=>new User
+                {
+                    Id = u.Id,
+                    UserMail = u.UserMail,
+                    UserName = u.UserName,
+                    Reviews = u.Reviews,
+                })
+                .ToListAsync();
+            return data;
+        }
+        public async Task<User> GetUserDetailsForAdmin(int id)
+        {
+
+            var data = await _context.User.AsNoTracking().Where(x => x.Role == "Member" && x.Id==id).Include(x => x.Reviews)
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    UserMail = u.UserMail,
+                    UserName = u.UserName,
+                    Reviews = u.Reviews,
+                })
+                .FirstOrDefaultAsync();
+            return data;
+        }
+
         public override bool IsExistAsync(int id)
         {
             throw new NotImplementedException();
@@ -29,10 +59,10 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             return data;
         }
 
-        public async Task<bool> SignIn(User user)
+        public async Task<bool> SignUp(User user)
         {
-            var data = await _context.User.AsNoTracking().Where(u=>u.UserMail !=  user.UserMail && user.UserName !=u.UserName).FirstOrDefaultAsync();
-            if (data==default)
+            var data = await _context.User.AsNoTracking().Where(u=>u.UserMail ==  user.UserMail || user.UserName == u.UserName).ToListAsync();
+            if (!data.Any())
             {
                 _context.User.Add(user);
                 await _context.SaveChangesAsync();

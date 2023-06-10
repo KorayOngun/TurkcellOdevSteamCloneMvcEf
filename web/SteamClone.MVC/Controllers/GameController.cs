@@ -8,6 +8,7 @@ using SteamClone.Entities.Entities;
 using SteamClone.MVC.CacheTools;
 using SteamClone.MVC.Models;
 using SteamClone.Services;
+using System.Diagnostics;
 using System.Security.Claims;
 
 namespace SteamClone.MVC.Controllers
@@ -85,10 +86,15 @@ namespace SteamClone.MVC.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(IFormCollection form, GameUpdateViewModel model)
         {
-            var data = await Control(form, model);
-            await _gameService.UpdateAsync(data);
-            await UpdateCache();
-            return RedirectToAction(nameof(Index), routeValues: new { id = model.Game.Id });
+            if (ModelState.IsValid)
+            {
+                var data = await Control(form, model);
+                await _gameService.UpdateAsync(data);
+                await UpdateCache();
+                return RedirectToAction(nameof(Index), routeValues: new { id = model.Game.Id });
+            }
+            return RedirectToAction("Index", "Home");
+          
         }
 
 
@@ -105,19 +111,21 @@ namespace SteamClone.MVC.Controllers
         [Authorize]
         public async Task<IActionResult> AddComment(int gameId,string comment)
         {
-          
-            var userMail = HttpContext.User.FindFirst(c=>c.Type==ClaimTypes.Email).Value;
 
-            var user = await _userService.GetUserDetailByEmailsAsync(userMail);
-            var userId = user.Id;   
-            GameCommentRequest commentRequest = new GameCommentRequest
-            {
-                GameId = gameId,
-                UserId = userId,    
-                Review = comment
-            };
-            await _gameService.AddCommentAsync(commentRequest);
-            return RedirectToAction("Index", "Game", new {id=gameId});
+          
+                var userMail = HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email).Value;
+                var user = await _userService.GetUserIdByEmailsAsync(userMail);
+                var userId = user.Id;
+                GameCommentRequest commentRequest = new GameCommentRequest
+                {
+                    GameId = gameId,
+                    UserId = userId,
+                    Review = comment
+                };
+                await _gameService.AddCommentAsync(commentRequest);
+                return RedirectToAction("Index", "Game", new { id = gameId });
+
+
         }
 
 
@@ -149,11 +157,11 @@ namespace SteamClone.MVC.Controllers
             var options = new MemoryCacheEntryOptions()
                               .SetSlidingExpiration(TimeSpan.FromMinutes(12))
                               .SetPriority(CacheItemPriority.Normal);
-
+            var games = await _gameService.GetAllAsync();
             cacheDataInfo = new CacheDataInfo
             {
                 CacheTime = DateTime.Now,
-                Games = _gameService.GetAllAsync().GetAwaiter().GetResult()
+                Games = games
             };
             _cache.Set("homeData", cacheDataInfo, options);
         }

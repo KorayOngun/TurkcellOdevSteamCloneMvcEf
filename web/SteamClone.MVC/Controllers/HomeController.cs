@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.IdentityModel.Tokens;
 using SteamClone.DataAccess.Repositories.EfRepo;
 using SteamClone.Dto.Response;
 using SteamClone.MVC.CacheTools;
@@ -21,12 +22,20 @@ namespace SteamClone.MVC.Controllers
             _cache = cache; 
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? name)
         {
-
-            var data = await GetGameMemCacheOrDb();   
+            IEnumerable<GameDisplayResponse> data;
+            if (!name.IsNullOrEmpty())
+            {
+                data = await _gameService.GetGameByName(name);
+            }
+            else
+            {
+                data = await GetGameMemCacheOrDb();
+            }
             return View(data);
         }
+
 
  
 
@@ -44,10 +53,11 @@ namespace SteamClone.MVC.Controllers
                 var options = new MemoryCacheEntryOptions()
                                   .SetSlidingExpiration(TimeSpan.FromMinutes(12))
                                   .SetPriority(CacheItemPriority.Normal);
+                var game = await _gameService.GetAllAsync();
                 cacheDataInfo = new CacheDataInfo
                 {
                     CacheTime = DateTime.Now,
-                    Games =  _gameService.GetAllAsync().GetAwaiter().GetResult()
+                    Games = game
                 };
 
                 _cache.Set("homeData", cacheDataInfo, options);

@@ -86,9 +86,10 @@ namespace SteamClone.Services
             return default;
         }
 
-        public void Update(GameRequest game)
+        public async Task<ICollection<GameDisplayResponse>> GetGameByName(string name)
         {
-            throw new NotImplementedException();
+            var data  = await _repo.GetAllWithPredicateAsync(g=>g.Name.Contains(name));
+            return data.ConvortToDto<GameDisplayResponse>(_mapper).ToList();
         }
 
         public async Task UpdateAsync(GameRequest game)
@@ -100,7 +101,7 @@ namespace SteamClone.Services
                 await _repo.UpdateAsync(item);
             }
         }
-        private Game BindValues(Game dbEntity, Game newValues)
+        private void BindValues(Game dbEntity, Game newValues)
         {
             dbEntity.Name = newValues.Name;
             dbEntity.RecommendedHardware = newValues.RecommendedHardware;
@@ -112,7 +113,6 @@ namespace SteamClone.Services
             dbEntity.Developers = newValues.Developers;
             dbEntity.ReleaseDate = newValues.ReleaseDate;
             dbEntity.ImageUrl = newValues.ImageUrl;
-            return dbEntity;
         }
 
     }
