@@ -12,13 +12,17 @@ using System.Threading.Tasks;
 
 namespace SteamClone.DataAccess.Repositories
 {
-    public class PublisherRepo : EfRepository<Publisher>,IPublisherRepo
+    public class PublisherRepo : EfRepository<Publisher>, IPublisherRepo
     {
         private readonly SteamCloneContext _context;
         public PublisherRepo(SteamCloneContext context):base(context) 
         {
                 _context = context;
         }
-        
+
+        public override bool IsExistAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

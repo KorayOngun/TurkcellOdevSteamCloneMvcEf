@@ -23,31 +23,43 @@ namespace SteamClone.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDisplayForAdmin>> GetAllUserForAdmin()
+        public async Task ChangeUserName(ChangeUserNameRequest changeUserNameRequest)
         {
-           return  _repo.GetAllWithPredicateAsync(x=>x.Role == "Member").GetAwaiter().GetResult().ConvortToDto<UserDisplayForAdmin>(_mapper).ToList();
+            var result = await _repo.Login(new User {UserName=changeUserNameRequest.UserName,UserPassword=changeUserNameRequest.UserPassword });
+            if (result != default)
+            {
+                var item = _repo.GetById(result.Id);
+                item.UserName = changeUserNameRequest.NewUserName;
+                await _repo.UpdateAsync(item);
+            }
+        }
+        public async Task<IEnumerable<UserDisplayForAdmin>> GetAllUserForAdminAsync()
+        {
+            var data = await _repo.GetAllWithPredicateAsync(x => x.Role == "Member");
+            return data.ConvortToDto<UserDisplayForAdmin>(_mapper).ToList();
+        }
+
+        public async Task<UserDisplayForAdmin> GetUserDetailByEmailsAsync(string mail)
+        {
+            var data = await _repo.GetAllWithPredicateAsync(u => u.UserMail == mail);
+            return data.FirstOrDefault().ConvertToDto<UserDisplayForAdmin>(_mapper);
         }
 
         public async Task<UserLoginResponse> LoginAsync(UserLoginRequest user)
         {
-            var result =  _repo.GetAllWithPredicateAsync(u => u.UserName == user.Name && user.Password == user.Password).GetAwaiter().GetResult().FirstOrDefault();
-            if (result != default)
-            {
-                return result.ConvertToDto<UserLoginResponse>(_mapper);
-            }
-            return null;
+            var _user = user.ConvertToDb<User>(_mapper);
+            var result = await _repo.Login(_user);
+            return result.ConvertToDto<UserLoginResponse>(_mapper); 
         }
-
         public async Task<bool> SignUpAsync(NewUserRequest newUser)
         {
-            var control = !_repo.GetAllWithPredicateAsync(x => x.UserName == newUser.UserName || x.UserMail == newUser.UserMail).GetAwaiter().GetResult().Any();
-            if (control)
+            var _newUser = newUser.ConvertToDb<User>(_mapper);
+            if (await _repo.SignIn(_newUser))
             {
-                await _repo.CreateAsync(newUser.ConvertToDb<User>(_mapper));
                 return true;    
             }
             return false;            
         }
-        
+
     }
 }

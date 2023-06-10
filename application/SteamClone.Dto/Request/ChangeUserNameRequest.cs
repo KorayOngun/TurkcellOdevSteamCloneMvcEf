@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SteamClone.Entities.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SteamClone.Dto.Request
 {
-    public class UserLoginRequest : IDto
+    public class ChangeUserNameRequest : IDto
     {
-        [Required(ErrorMessage ="kullanıcı adı boş olamaz")]
         public string UserName { get; set; }
         [DataType(DataType.Password)]
         public string UserPassword { get; set; }
+        public string NewUserName { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace SteamClone.Services.Extension
         }
         public static T ConvertToDb<T>(this IDto dto, IMapper mapper) where T : class, IEntity
         {
-            return mapper.Map<T>(dto);  
+            return  mapper.Map<T>(dto);  
         }
         public static IEnumerable<T> ConvortToDb<T>(this IEnumerable<IDto> entity, IMapper mapper) where T : class, IEntity
         {

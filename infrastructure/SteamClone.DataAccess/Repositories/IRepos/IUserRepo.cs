@@ -9,6 +9,7 @@ namespace SteamClone.DataAccess.Repositories.IRepos
 {
     public interface IUserRepo : IRepo<User>
     {
-
+        Task<User> Login(User user);
+        Task<bool> SignIn(User user);
     }
 }

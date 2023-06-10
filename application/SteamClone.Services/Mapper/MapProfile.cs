@@ -16,11 +16,13 @@ namespace SteamClone.Services.Mapper
         {
             CreateMap<Game, GameDisplayResponse>();
             CreateMap<Game,GameDetailsResponse>();
+            CreateMap<UserLoginRequest, User>();
             CreateMap<User,UserLoginResponse>();
+            CreateMap<User,ChangeUserNameRequest>().ReverseMap();
             CreateMap<User, UserDisplayForAdmin>();
             CreateMap<NewUserRequest,User>();
             CreateMap<Game, GameRequest>().ReverseMap();
-
+            CreateMap<GameCommentRequest, GameReview>();
 
             CreateMap<Developer,DeveloperResponse>();
             

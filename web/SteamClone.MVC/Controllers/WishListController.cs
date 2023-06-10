@@ -49,13 +49,10 @@ namespace SteamClone.MVC.Controllers
             saveToSession(data);
             return RedirectToAction("Index","Home");
         }
-
-
         private WishListCollection getWishList()
         {
             return HttpContext.Session.GetJson<WishListCollection>("WishList") ?? new WishListCollection();
         }
-
         private void saveToSession(WishListCollection wishList)
         {
             HttpContext.Session.SetJson("WishList", wishList);

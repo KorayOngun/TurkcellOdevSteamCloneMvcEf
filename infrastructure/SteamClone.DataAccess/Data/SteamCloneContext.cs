@@ -15,6 +15,8 @@ namespace SteamClone.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<GameReview> GameReview { get; set; }
         public DbSet<GameCategory> GameCategory { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Developer> Developer { get; set; }
          
         public SteamCloneContext(DbContextOptions options) : base(options)
         {
@@ -22,14 +24,18 @@ namespace SteamClone.DataAccess.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.UseCollation("SQL_Latin1_General_CP1_CS_AS");
+
             //----Game
             modelBuilder.Entity<Game>().HasOne(g=>g.Publisher).WithMany(p=>p.Games).HasForeignKey(p=>p.PublisherId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Game>().HasMany(g => g.Developers).WithOne(gd=>gd.Game).HasForeignKey(p=>p.GameId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Game>().HasMany(g=>g.Categories).WithOne(c=>c.Game).HasForeignKey(p=>p.GameId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Game>().HasMany(g => g.Review).WithOne(gr => gr.Game).HasForeignKey(p => p.GameId).OnDelete(DeleteBehavior.Cascade);
+
             
-            
-            
+           
+
 
             //----User
             modelBuilder.Entity<User>().HasKey("Id");

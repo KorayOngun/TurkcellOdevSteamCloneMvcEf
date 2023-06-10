@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SteamClone.DataAccess.Repositories.EfRepo
 {
-    public abstract class EfRepository<T> : IRepo<T> where T : class,IEntity,new()
+    public abstract  class EfRepository<T> : IRepo<T> where T : class,IEntity,new()
     {
         private readonly SteamCloneContext _context;
         
@@ -21,34 +21,17 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
         public EfRepository(SteamCloneContext context)
         {
             _context = context;
-             
-        }
-        protected void SaveChangesWithExceptionHandler()
-        {
-            try
-            {
-                _context.SaveChanges();
-            }
-            finally{}
-        }
-        protected async Task SaveChangesWithExceptionHandlerAsync()
-        {
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            finally{}
         }
         public virtual void Create(T entity)
         {
                _context.Set<T>().Add(entity);
-            SaveChangesWithExceptionHandler();
+            _context.SaveChanges();
         }
 
         public virtual async Task CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await SaveChangesWithExceptionHandlerAsync();
+            await _context.SaveChangesAsync();
         }
 
         public virtual void Delete(T entity)
@@ -101,9 +84,10 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
 
         public virtual async Task UpdateAsync(T entity)
         {
-            
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
         }
+
+        public abstract bool IsExistAsync(int id);
     }
 }

@@ -16,5 +16,10 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
         {
             _context = context;
         }
+
+        public override bool IsExistAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

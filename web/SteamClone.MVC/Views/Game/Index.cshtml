@@ -80,11 +80,15 @@
 </div>
 
 
-<div class="row"> 
-    <div>
-
+<div class="row">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="comment" placeholder="comment" data-gameId="@Model.Id"  aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <a asp-controller="game" id="send" asp-action="AddCommnet" asp-route-gameId="@Model.Id" asp-route-comment=" "><button class="btn btn-outline-secondary" type="button">Send</button></a>
+        </div>
     </div>
 </div>
+
 @foreach (var item in Model.Review)
 {
     <div class="card">
@@ -104,3 +108,13 @@
     }
     <a asp-controller="home" asp-action="Index">Back to List</a>
 </div>
+@section Scripts{
+    <script>
+        document.getElementById("send").addEventListener("mouseenter",()=>{
+            var text = document.getElementById("comment").value;
+            var id = document.getElementById("comment").getAttribute("data-gameId")
+            document.getElementById("send").href = "/game/addcomment?gameId="+id+"&comment="+text;
+            console.log(text);
+        })
+    </script>
+}

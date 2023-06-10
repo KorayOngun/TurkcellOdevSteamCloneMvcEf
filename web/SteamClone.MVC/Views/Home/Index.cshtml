@@ -34,10 +34,8 @@
                     success:function(data){
                         console.log(data)
                         if(data.result == 0){
+                            $("#"+id).remove();
                             alert("game added")
-                        }
-                        if (data.result == 1) {
-                            alert("the number of games increased")
                         }
                     },
                     error:function(err){

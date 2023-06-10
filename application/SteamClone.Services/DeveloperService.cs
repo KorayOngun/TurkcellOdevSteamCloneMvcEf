@@ -23,7 +23,8 @@ namespace SteamClone.Services
 
         public async Task<IEnumerable<DeveloperResponse>> GetAllDevelopersAsync()
         {
-            return _repo.GetAllAsync().GetAwaiter().GetResult().ConvortToDto<DeveloperResponse>(_mapper);
+            var data = await _repo.GetAllAsync();
+            return data.ConvortToDto<DeveloperResponse>(_mapper);
         }
     }
 }

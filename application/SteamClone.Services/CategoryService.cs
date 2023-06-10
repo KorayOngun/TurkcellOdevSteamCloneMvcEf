@@ -22,23 +22,12 @@ namespace SteamClone.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CategoryControlAsync(IEnumerable<CategoryRequest> categories)
-        {
-            var data = categories.ConvortToDb<Category>(_mapper);
-            foreach (var category in data) 
-            {
-                if (!await _repo.IsExistAsync(category.Id))
-                {
-                    return false;
-                }
-                continue;
-            }
-            return true;
-        }
+       
 
         public async Task<ICollection<CategoryResponse>> GetCategoriesAsync()
         {
-            return _repo.GetAllAsync().GetAwaiter().GetResult().ConvortToDto<CategoryResponse>(_mapper).ToList();
+            var data = await _repo.GetAllAsync();
+            return data.ConvortToDto<CategoryResponse>(_mapper).ToList();
         }
     }
 }

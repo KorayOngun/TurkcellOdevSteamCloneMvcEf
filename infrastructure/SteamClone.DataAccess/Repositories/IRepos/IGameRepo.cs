@@ -9,6 +9,8 @@ namespace SteamClone.DataAccess.Repositories.IRepos
 {
     public interface IGameRepo : IRepo<Game>
     {
-        
+        Task AddCommentAsync(GameReview comment);
+        Game? GetItemForUpdate(int id);
+        Task<Game?> GetItemForUpdateAsync(int id);
     }
 }

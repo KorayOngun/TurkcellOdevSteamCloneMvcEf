@@ -26,7 +26,10 @@ namespace SteamClone.MVC.Extension
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IDeveloperService, DeveloperService>();
             //IoC
-            services.AddDbContext<SteamCloneContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddDbContext<SteamCloneContext>(opt =>
+            {
+                opt.UseSqlServer(connectionString);
+            });
 
             return services;
         }

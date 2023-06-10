@@ -16,8 +16,9 @@ namespace SteamClone.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var data =  await _userService.GetAllUserForAdmin();
+            var data =  await _userService.GetAllUserForAdminAsync();
             return View(data);
         }
+        
     }
 }

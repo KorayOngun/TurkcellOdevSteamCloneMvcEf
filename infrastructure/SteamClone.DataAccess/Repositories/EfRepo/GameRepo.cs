@@ -16,16 +16,16 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
     public class GameRepo : EfRepository<Game>, IGameRepo
     {
         private readonly SteamCloneContext _context;
-        
+
         public GameRepo(SteamCloneContext context) : base(context)
         {
             _context = context;
         }
         public override Game GetById(int id)
         {
-            var item = _context.Games.Where(x => x.Id == id).Include(g => g.Publisher)
+            var item = _context.Games.AsNoTracking().Where(x => x.Id == id).Include(g => g.Publisher)
                                                             .Include(g => g.Review)
-                                                            .ThenInclude(r=>r.User)
+                                                            .ThenInclude(r => r.User)
                                                             .Include(g => g.Categories)
                                                             .ThenInclude(c => c.Category)
                                                             .Include(g => g.Developers)
@@ -37,11 +37,13 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             }
             return item;
         }
+
+
         public async override Task<Game> GetByIdAsync(int id)
         {
-            var item = await _context.Games.Where(x => x.Id == id).Include(g => g.Publisher)
+            var item = await _context.Games.AsNoTracking().Where(x => x.Id == id).Include(g => g.Publisher)
                                                                   .Include(g => g.Review)
-                                                                  .ThenInclude(r=>r.User)
+                                                                  .ThenInclude(r => r.User)
                                                                   .Include(g => g.Categories)
                                                                   .ThenInclude(c => c.Category)
                                                                   .Include(g => g.Developers)
@@ -53,38 +55,8 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             }
             return item;
         }
-        public override async Task UpdateAsync(Game entity)
-        {
-            var item = await GetItemForUpdateAsync(entity.Id);
-            if (item != default)
-            {
-                BindValues(item, entity);   
-            }
-            await _context.SaveChangesAsync();
-        }
-        public override void Update(Game entity)
-        {
-            var item =  GetItemForUpdate(entity.Id);
-            if (item != default)
-            {
-                BindValues(item,entity);
-            }
-             _context.SaveChanges();
-        }
-        private Game BindValues(Game dbEntity,Game newValues)
-        {
-            dbEntity.RecommendedHardware = newValues.RecommendedHardware;
-            dbEntity.Price = newValues.Price;
-            dbEntity.About = newValues.About;
-            dbEntity.PublisherId = newValues.PublisherId;
-            dbEntity.MinimumHardware = newValues.MinimumHardware;
-            dbEntity.Categories = newValues.Categories;
-            dbEntity.Developers = newValues.Developers;
-            dbEntity.ReleaseDate = newValues.ReleaseDate;
-            dbEntity.ImageUrl = newValues.ImageUrl;
-            return dbEntity;
-        }
-        private async Task<Game?> GetItemForUpdateAsync(int id)
+
+        public async Task<Game?> GetItemForUpdateAsync(int id)
         {
             return await _context.Games.Where(x => x.Id == id)
                                        .Include(g => g.Publisher)
@@ -94,15 +66,36 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
                                        .ThenInclude(d => d.Developer)
                                        .FirstOrDefaultAsync();
         }
-        private  Game? GetItemForUpdate(int id)
+        public Game? GetItemForUpdate(int id)
         {
-            return  _context.Games.Where(x => x.Id == id)
+            return _context.Games.Where(x => x.Id == id)
                                        .Include(g => g.Publisher)
                                        .Include(g => g.Categories)
                                        .ThenInclude(c => c.Category)
                                        .Include(g => g.Developers)
                                        .ThenInclude(d => d.Developer)
                                        .FirstOrDefault();
+        }
+
+        public async Task AddCommentAsync(GameReview comment)
+        {
+            GameReview gameReview = new GameReview
+            {
+                GameId = comment.GameId,
+                UserId = comment.UserId,
+                Review = comment.Review,
+            };
+            await _context.GameReview.AddAsync(gameReview);
+            await _context.SaveChangesAsync();
+        }
+
+        public override bool IsExistAsync(int id)
+        {
+            if (_context.Games.Where(x=>x.Id==id).Count()==1)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

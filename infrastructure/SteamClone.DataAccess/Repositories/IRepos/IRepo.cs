@@ -24,6 +24,7 @@ namespace SteamClone.DataAccess.Repositories.IRepos
         ICollection<T> GetAll();
         Task<T> GetByIdAsync(int id);
         T GetById(int id);
+        bool IsExistAsync(int id);
 
     }
 }

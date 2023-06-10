@@ -12,6 +12,8 @@ namespace SteamClone.Services
     {
         Task<UserLoginResponse> LoginAsync(UserLoginRequest user);   
         Task<bool> SignUpAsync(NewUserRequest newUser);
-        Task<IEnumerable<UserDisplayForAdmin>> GetAllUserForAdmin();
+        Task<IEnumerable<UserDisplayForAdmin>> GetAllUserForAdminAsync();
+        Task<UserDisplayForAdmin> GetUserDetailByEmailsAsync(string mail);
+        Task ChangeUserName(ChangeUserNameRequest changeUserNameRequest);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SteamClone.Dto.Request;
+using SteamClone.MVC.Models;
 using SteamClone.Services;
 using System.Security.Claims;
 
@@ -15,7 +17,7 @@ namespace SteamClone.MVC.Controllers
         {
             _userService = userService;
         }
-
+        
         [HttpGet]
         public IActionResult Login()
         {
@@ -74,6 +76,19 @@ namespace SteamClone.MVC.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ChangeUserName()
+        {
+            return View();
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangeUserName(ChangeUserNameRequest request)
+        {
+            await _userService.ChangeUserName(request);
+            return RedirectToAction(nameof(Logout));  
         }
     }
 }

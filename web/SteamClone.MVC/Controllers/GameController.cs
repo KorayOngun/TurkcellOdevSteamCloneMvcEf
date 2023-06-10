@@ -8,7 +8,7 @@ using SteamClone.Entities.Entities;
 using SteamClone.MVC.CacheTools;
 using SteamClone.MVC.Models;
 using SteamClone.Services;
-
+using System.Security.Claims;
 
 namespace SteamClone.MVC.Controllers
 {
@@ -18,14 +18,16 @@ namespace SteamClone.MVC.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IPublisherService _publisherService;
         private readonly IDeveloperService _developerService;
+        private readonly IUserService _userService;
         private readonly IMemoryCache _cache;
-        public GameController(IGameService gameService, ICategoryService categoryService, IPublisherService publisherService, IDeveloperService developerService, IMemoryCache cache)
+        public GameController(IGameService gameService, ICategoryService categoryService, IPublisherService publisherService, IDeveloperService developerService, IMemoryCache cache, IUserService userService)
         {
             _gameService = gameService;
             _categoryService = categoryService;
             _publisherService = publisherService;
             _developerService = developerService;
             _cache = cache;
+            _userService = userService;
         }
         public async Task<IActionResult> Index(int id)
         {
@@ -53,10 +55,11 @@ namespace SteamClone.MVC.Controllers
 
             var data = await Control(formValue, model);
             var result = await _gameService.CreateGameAsync(data);
-            if (result)
+            if (result!=0)
             {
                 TempData["gameAdd"] = "oyun eklendi";
                 await UpdateCache();
+                return RedirectToAction("Index", new { id = result });
             }
             return RedirectToAction(nameof(Create));
         }
@@ -95,10 +98,27 @@ namespace SteamClone.MVC.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _gameService.DeleteGameAsync(id);
+            await UpdateCache();
             return RedirectToAction("index", "home");
         }
 
+        [Authorize]
+        public async Task<IActionResult> AddComment(int gameId,string comment)
+        {
+          
+            var userMail = HttpContext.User.FindFirst(c=>c.Type==ClaimTypes.Email).Value;
 
+            var user = await _userService.GetUserDetailByEmailsAsync(userMail);
+            var userId = user.Id;   
+            GameCommentRequest commentRequest = new GameCommentRequest
+            {
+                GameId = gameId,
+                UserId = userId,    
+                Review = comment
+            };
+            await _gameService.AddCommentAsync(commentRequest);
+            return RedirectToAction("Index", "Game", new {id=gameId});
+        }
 
 
         private  async Task<GameRequest> Control(IFormCollection form, IGameViewModel model)
