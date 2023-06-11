@@ -43,7 +43,7 @@ namespace SteamClone.MVC.Controllers
         {
             GameCreateViewModel model = new()
             {
-                Categories = await _categoryService.GetCategoriesAsync(),
+                Categories = await _categoryService.GetCategoriesAsync(),  
                 Publisher = await _publisherService.GetAllPublisherAsync(),
                 Developers = await _developerService.GetAllDevelopersAsync()
             };
