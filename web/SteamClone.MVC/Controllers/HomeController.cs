@@ -37,7 +37,7 @@ namespace SteamClone.MVC.Controllers
                 data = await GetGameMemCacheOrDb();
                 PagingInfo info = new()
                 {
-                    ItemPerPage = 2,
+                    ItemPerPage = 2,  
                     CurrentPage = index,
                     TotalItem = data.Count()
                 };

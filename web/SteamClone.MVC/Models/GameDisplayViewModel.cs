@@ -9,3 +9,4 @@ namespace SteamClone.MVC.Models
         public PagingInfo? Info { get; set; }
     }
 }
+ 
