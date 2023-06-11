@@ -22,8 +22,11 @@ namespace SteamClone.MVC.Controllers
             _cache = cache; 
         }
 
-        public async Task<IActionResult> Index(string? name)
+        public async Task<IActionResult> Index(string? name,int index)
         {
+
+            GameDisplayViewModel model = new();
+            
             IEnumerable<GameDisplayResponse> data;
             if (!name.IsNullOrEmpty())
             {
@@ -32,8 +35,19 @@ namespace SteamClone.MVC.Controllers
             else
             {
                 data = await GetGameMemCacheOrDb();
+                PagingInfo info = new()
+                {
+                    ItemPerPage = 2,
+                    CurrentPage = index,
+                    TotalItem = data.Count()
+                };
+                data = data.Skip((info.CurrentPage - 1) * info.ItemPerPage).Take(info.ItemPerPage);
+                model.Info = info;
             }
-            return View(data);
+            model.Data = data;
+            
+            
+            return View(model);
         }
 
 

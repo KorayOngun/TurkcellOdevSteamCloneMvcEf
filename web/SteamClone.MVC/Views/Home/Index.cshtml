@@ -3,7 +3,7 @@
     ViewData["Title"] = "Home Page";
      
 }
-@model IEnumerable<GameDisplayResponse>
+@model GameDisplayViewModel
 
 <div class="row">
     <div class="input-group mb-3">
@@ -16,7 +16,7 @@
 <span>@TempData["Signup"]</span>
 <Div class="container">
     <div class="row">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Data)
         {
             <div class="card m-1" style="width: 18rem;">
                 <img class="card-img-top" style="height:50%" src="@item.ImageUrl" alt="Card image cap">
@@ -30,6 +30,15 @@
         }
      </div>   
 </Div>
+<div>
+   @if (Model.Info!=default)
+    {
+        for (int i = 1; i <= Model.Info.TotalPages; i++)
+        {
+            <a asp-action="index" asp-route-index="@i" ><button class="btn btn-secondary">@i</button></a>
+        }
+    }
+</div>
 @section Scripts{
 
     <script>
