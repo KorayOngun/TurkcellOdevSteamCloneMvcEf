@@ -64,8 +64,7 @@ namespace SteamClone.DataAccess.Repositories.EfRepo
             var data = await _context.User.AsNoTracking().Where(u=>u.UserMail ==  user.UserMail || user.UserName == u.UserName).ToListAsync();
             if (!data.Any())
             {
-                _context.User.Add(user);
-                await _context.SaveChangesAsync();
+                await base.CreateAsync(user);
                 return true;
             }
             return false;
