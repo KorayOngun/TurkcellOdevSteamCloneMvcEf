@@ -37,7 +37,7 @@ namespace SteamClone.Services
         {
             var item = game.ConvertToDb<Game>(_mapper);
             await _repo.CreateAsync(item);
-            if (item.Id != null)
+            if (item.Id != default)
             {
                 return item.Id;
             }
@@ -62,7 +62,8 @@ namespace SteamClone.Services
         public async Task<IEnumerable<GameDisplayResponse>> GetAllAsync()
         {
             var data = await _repo.GetAllAsync();
-            return data.ConvortToDto<GameDisplayResponse>(_mapper);
+            var result = data.ConvortToDto<GameDisplayResponse>(_mapper);
+            return result;
         }
 
 
@@ -71,7 +72,8 @@ namespace SteamClone.Services
             if (_repo.IsExistAsync(id))
             {
                 var data = await _repo.GetByIdAsync(id);
-                return data.ConvertToDto<GameDetailsResponse>(_mapper);
+                var result = data.ConvertToDto<GameDetailsResponse>(_mapper);
+                return result;
             }
             return default;
         }
@@ -81,7 +83,8 @@ namespace SteamClone.Services
             if (_repo.IsExistAsync(id))
             {
                 var data = await _repo.GetByIdAsync(id);
-                return data.ConvertToDto<GameRequest>(_mapper);
+                var result = data.ConvertToDto<GameRequest>(_mapper);
+                return result;
             }
             return default;
         }
@@ -89,7 +92,8 @@ namespace SteamClone.Services
         public async Task<ICollection<GameDisplayResponse>> GetGameByName(string name)
         {
             var data  = await _repo.GetAllWithPredicateAsync(g=>g.Name.Contains(name));
-            return data.ConvortToDto<GameDisplayResponse>(_mapper).ToList();
+            var result = data.ConvortToDto<GameDisplayResponse>(_mapper).ToList();
+            return result;
         }
 
         public async Task UpdateAsync(GameRequest game)
